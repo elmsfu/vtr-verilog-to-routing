@@ -823,7 +823,7 @@ static void power_usage_routing(t_power_usage * power_usage,
 		t_trace * trace;
 
 		for (trace = route_ctx.trace_head[net_id]; trace != nullptr; trace = trace->next) {
-			t_rr_node * node = &device_ctx.rr_nodes[trace->index];
+			auto node = &device_ctx.rr_nodes[trace->index];
 			t_rr_node_power * node_power = &rr_node_power[trace->index];
 
 			if (node_power->visited) {
@@ -832,7 +832,7 @@ static void power_usage_routing(t_power_usage * power_usage,
 
 			for (edge_idx = 0; edge_idx < node->num_edges(); edge_idx++) {
 				if (node->edge_sink_node(edge_idx) != OPEN) {
-					t_rr_node * next_node = &device_ctx.rr_nodes[node->edge_sink_node(edge_idx)];
+					auto next_node = &device_ctx.rr_nodes[node->edge_sink_node(edge_idx)];
 					t_rr_node_power * next_node_power = &rr_node_power[node->edge_sink_node(edge_idx)];
 
 					switch (next_node->type()) {
@@ -865,7 +865,7 @@ static void power_usage_routing(t_power_usage * power_usage,
 	/* Calculate power of all routing entities */
 	for (rr_node_idx = 0; rr_node_idx < device_ctx.num_rr_nodes; rr_node_idx++) {
 		t_power_usage sub_power_usage;
-		t_rr_node * node = &device_ctx.rr_nodes[rr_node_idx];
+		auto node = &device_ctx.rr_nodes[rr_node_idx];
 		t_rr_node_power * node_power = &rr_node_power[rr_node_idx];
 		float C_wire;
 		float buffer_size;
@@ -1197,7 +1197,7 @@ void power_routing_init(const t_det_routing_arch * routing_arch) {
 		int switch_idx;
 		int fanout_to_IPIN = 0;
 		int fanout_to_seg = 0;
-		t_rr_node * node = &device_ctx.rr_nodes[rr_node_idx];
+		auto node = &device_ctx.rr_nodes[rr_node_idx];
 		t_rr_node_power * node_power = &rr_node_power[rr_node_idx];
 
 		switch (node->type()) {
@@ -1247,7 +1247,7 @@ void power_routing_init(const t_det_routing_arch * routing_arch) {
 
 	/* Populate driver switch type */
 	for (rr_node_idx = 0; rr_node_idx < device_ctx.num_rr_nodes; rr_node_idx++) {
-		t_rr_node * node = &device_ctx.rr_nodes[rr_node_idx];
+		auto node = &device_ctx.rr_nodes[rr_node_idx];
 		int edge_idx;
 
 		for (edge_idx = 0; edge_idx < node->num_edges(); edge_idx++) {
@@ -1264,7 +1264,7 @@ void power_routing_init(const t_det_routing_arch * routing_arch) {
 	/* Find Max Fanout of Routing Buffer	 */
 	max_seg_fanout = 0;
 	for (rr_node_idx = 0; rr_node_idx < device_ctx.num_rr_nodes; rr_node_idx++) {
-		t_rr_node * node = &device_ctx.rr_nodes[rr_node_idx];
+		auto node = &device_ctx.rr_nodes[rr_node_idx];
 
 		switch (node->type()) {
 		case CHANX:
@@ -1352,7 +1352,7 @@ bool power_uninit() {
 	bool error = false;
 
 	for (rr_node_idx = 0; rr_node_idx < device_ctx.num_rr_nodes; rr_node_idx++) {
-		t_rr_node * node = &device_ctx.rr_nodes[rr_node_idx];
+		auto node = &device_ctx.rr_nodes[rr_node_idx];
 		t_rr_node_power * node_power = &rr_node_power[rr_node_idx];
 
 		switch (node->type()) {
