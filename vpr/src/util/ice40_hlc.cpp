@@ -588,8 +588,8 @@ void ICE40HLCWriterVisitor::finish_impl() {
 
             // Find the driver for this global net
             std::string glb_net_name = "";
-			for (auto pin_id : cluster_ctx.clb_nlist.net_pins(net_id)) {
-				ClusterBlockId block_id = cluster_ctx.clb_nlist.pin_block(pin_id);
+            for (auto pin_id : cluster_ctx.clb_nlist.net_pins(net_id)) {
+                ClusterBlockId block_id = cluster_ctx.clb_nlist.pin_block(pin_id);
                 auto& block = place_ctx.block_locs[block_id];
 
                 auto hlcpos = _translate_coords(block.x, block.y);
@@ -612,7 +612,11 @@ void ICE40HLCWriterVisitor::finish_impl() {
                 auto& block = place_ctx.block_locs[block_id];
                 std::string name = cluster_ctx.clb_nlist.port_bit_name(pin_id);
 
-                auto hlcpos = _translate_coords(block.x, block.y);
+                auto grid_tile = device_ctx.grid[block.x][block.y];
+                int x_offset = grid_tile.type->pin_width_offset[pin_index];
+                int y_offset = grid_tile.type->pin_height_offset[pin_index];
+
+                auto hlcpos = _translate_coords(block.x + x_offset, block.y + y_offset);
                 auto is_driver = drives_global_net(hlcpos, block.z);
                 if (is_driver.size() == 0) {
                     auto tile = output_.get_tile(hlcpos);
