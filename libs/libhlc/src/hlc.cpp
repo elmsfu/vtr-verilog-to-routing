@@ -262,6 +262,16 @@ void t_hlc_file::print(std::ostream& os) {
         auto tile = i.second;
         // VTR_ASSERT(pos.x == tile->pos.x);
         // VTR_ASSERT(pos.y == tile->pos.y);
+
+        // XXX: hack the ram
+        if (tile->name.find("ramt") == 0) {
+            if (tile->pos.y % 2) {
+                tile->name.replace(0,4,"ramb");
+                print_indent(os, "    #", "hackity hack on ram tiles");
+                os << std::endl;
+          }
+        }
+
         os << tile->name // hlc_tile_typename[tile->type]
             << " " << tile->pos.x << " " << tile->pos.y
             << " {" << std::endl;
