@@ -136,12 +136,11 @@ class t_rr_node {
         void set_edge_is_configurable(short iedge, bool is_configurable);
 
         void add_metadata(std::string key, std::string value);
-        void add_edge_metadata(short iedge, std::string key, std::string value);
-
         void add_metadata(t_offset o, std::string key, std::string value);
-        void add_edge_metadata(short iedge, t_offset o, std::string key, std::string value);
-
         void add_metadata(std::pair<t_offset, std::string> ok, std::string value);
+
+        void add_edge_metadata(short iedge, std::string key, std::string value);
+        void add_edge_metadata(short iedge, t_offset o, std::string key, std::string value);
         void add_edge_metadata(short iedge, std::pair<t_offset, std::string> ok, std::string value);
 
         void set_fan_in(short);
